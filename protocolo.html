@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Protocolo Premium Parametrizável</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --black:#050505;
+  --dark:#0d0d0d;
+  --card:#151515;
+  --card2:#1c1c1c;
+  --border:#2b2b2b;
+  --accent:#e50914;
+  --accentSoft:rgba(229,9,20,.14);
+  --text:#f4f4f4;
+  --muted:#9b9b9b;
+  --white:#ffffff;
+  --logo-url:url("assets/logo.jpg");
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND FX */
+.bg-fx{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-2;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(229,9,20,.20), transparent 28%),
+    radial-gradient(circle at 86% 28%, rgba(255,255,255,.06), transparent 22%),
+    radial-gradient(circle at 70% 92%, rgba(229,9,20,.12), transparent 30%),
+    #050505;
+}
+.grid-fx{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:linear-gradient(to bottom, black, transparent 85%);
+}
+
+/* TOPBAR */
+.topbar{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(1120px, calc(100% - 36px));
+  height:68px;
+  background:rgba(10,10,10,.68);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(18px);
+  border-radius:999px;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 14px 10px 12px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+.brand-mini{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.logo-mini{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background-image:var(--logo-url);
+  background-size:cover;
+  background-position:center;
+  border:1px solid rgba(229,9,20,.55);
+  box-shadow:0 0 26px rgba(229,9,20,.35);
+  flex-shrink:0;
+}
+.brand-mini strong{
+  display:block;
+  font-family:'Bebas Neue';
+  font-size:22px;
+  letter-spacing:1.5px;
+  color:var(--white);
+  line-height:1;
+}
+.brand-mini span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.topnav{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  overflow:auto;
+  scrollbar-width:none;
+}
+.topnav::-webkit-scrollbar{display:none}
+.topnav a{
+  color:#cfcfcf;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  padding:10px 13px;
+  border-radius:999px;
+  transition:.25s;
+  white-space:nowrap;
+}
+.topnav a:hover,.topnav a.active{
+  color:var(--white);
+  background:var(--accentSoft);
+  box-shadow:inset 0 0 0 1px rgba(229,9,20,.32);
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  padding:136px 7vw 80px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:58px;
+  align-items:center;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 15px;
+  border:1px solid rgba(229,9,20,.38);
+  background:rgba(229,9,20,.10);
+  color:var(--accent);
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+  margin-bottom:26px;
+}
+.hero h1{
+  font-family:'Bebas Neue';
+  font-size:clamp(64px,9vw,128px);
+  line-height:.82;
+  letter-spacing:2px;
+  margin-bottom:26px;
+}
+.hero h1 span{
+  display:block;
+  color:var(--accent);
+  text-shadow:0 0 35px rgba(229,9,20,.35);
+}
+.hero p{
+  max-width:680px;
+  color:var(--muted);
+  font-size:18px;
+}
+.hero-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:34px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  text-decoration:none;
+  padding:14px 20px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:800;
+  transition:.25s;
+}
+.btn-primary{
+  background:var(--accent);
+  color:var(--white);
+  box-shadow:0 15px 40px rgba(229,9,20,.28);
+}
+.btn-secondary{
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--white);
+  background:rgba(255,255,255,.05);
+}
+.btn:hover{transform:translateY(-2px)}
+.hero-panel{
+  position:relative;
+  min-height:540px;
+  border-radius:36px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.10), transparent),
+    linear-gradient(180deg, rgba(229,9,20,.16), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.12);
+  overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.45);
+}
+.hero-panel::before{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  background-image:var(--logo-url);
+  background-size:cover;
+  background-position:center;
+  opacity:.13;
+  filter:blur(2px) grayscale(1);
+  transform:scale(1.08);
+}
+.hero-panel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.86), rgba(0,0,0,.22));
+}
+.panel-content{
+  position:absolute;
+  inset:auto 28px 28px 28px;
+  z-index:2;
+}
+.panel-content .logo-big{
+  width:112px;
+  height:112px;
+  border-radius:28px;
+  background-image:var(--logo-url);
+  background-size:cover;
+  background-position:center;
+  border:1px solid rgba(229,9,20,.45);
+  box-shadow:0 0 60px rgba(229,9,20,.30);
+  margin-bottom:22px;
+}
+.panel-content h2{
+  font-family:'Bebas Neue';
+  font-size:44px;
+  letter-spacing:2px;
+  line-height:.95;
+}
+.panel-content p{font-size:14px;margin-top:10px}
+
+/* GENERAL */
+.section{
+  padding:100px 7vw;
+  position:relative;
+}
+.section::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:7vw;
+  right:7vw;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+}
+.section-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:42px;
+}
+.section-num{
+  font-family:'Bebas Neue';
+  font-size:86px;
+  color:rgba(229,9,20,.20);
+  line-height:.8;
+}
+.section-tag{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:9px;
+}
+.section-title{
+  font-family:'Bebas Neue';
+  font-size:clamp(42px,5vw,70px);
+  letter-spacing:2px;
+  line-height:.9;
+}
+.section-desc{
+  color:var(--muted);
+  max-width:650px;
+  margin-top:14px;
+}
+
+/* CARDS */
+.grid{
+  display:grid;
+  gap:22px;
+}
+.cols-2{grid-template-columns:repeat(2,1fr)}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:28px;
+  padding:28px;
+  box-shadow:0 22px 70px rgba(0,0,0,.22);
+  transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(229,9,20,.38);
+  box-shadow:0 30px 80px rgba(229,9,20,.08);
+}
+.card.featured{
+  background:linear-gradient(135deg, rgba(229,9,20,.18), rgba(255,255,255,.035));
+  border-color:rgba(229,9,20,.35);
+}
+.card h3{
+  font-family:'Bebas Neue';
+  font-size:28px;
+  letter-spacing:1.3px;
+  margin-bottom:8px;
+}
+.card p,.card li{color:var(--muted);font-size:14px}
+.big{
+  font-family:'Bebas Neue';
+  font-size:42px;
+  color:var(--accent);
+  letter-spacing:1px;
+  line-height:1;
+  margin:12px 0;
+}
+
+/* WEEK */
+.week{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:14px;
+}
+.day{
+  position:relative;
+  min-height:148px;
+  text-decoration:none;
+  color:var(--text);
+  border-radius:26px;
+  padding:20px 14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  transition:.3s ease;
+}
+.day::after{
+  content:"";
+  position:absolute;
+  inset:auto -20px -36px auto;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:var(--accent);
+  opacity:.13;
+}
+.day:hover{
+  transform:translateY(-8px) scale(1.01);
+  border-color:rgba(229,9,20,.45);
+}
+.day small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.4px;
+}
+.day strong{
+  display:block;
+  font-family:'Bebas Neue';
+  font-size:30px;
+  color:var(--accent);
+  letter-spacing:1px;
+  margin:10px 0 4px;
+}
+.day span{font-size:12px;color:#bcbcbc}
+
+/* EXERCISE */
+.exercise-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:24px;
+}
+.exercise{
+  border-radius:30px;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.10);
+  transition:.3s ease;
+}
+.exercise:hover{
+  transform:translateY(-8px);
+  border-color:rgba(229,9,20,.42);
+}
+.exercise-media{
+  height:220px;
+  background:#151515;
+  position:relative;
+  overflow:hidden;
+}
+.exercise-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.exercise-media .fallback{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:58px;
+  background:radial-gradient(circle, rgba(229,9,20,.18), transparent 55%), #151515;
+}
+.exercise-body{padding:24px}
+.exercise h3{
+  font-family:'Bebas Neue';
+  font-size:26px;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+.meta{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.pill{
+  display:inline-flex;
+  border-radius:999px;
+  background:rgba(229,9,20,.13);
+  color:#fff;
+  border:1px solid rgba(229,9,20,.25);
+  padding:5px 10px;
+  font-size:11px;
+  font-weight:800;
+}
+
+/* MEALS */
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.tabs button{
+  border:1px solid rgba(255,255,255,.10);
+  color:#cfcfcf;
+  background:rgba(255,255,255,.04);
+  border-radius:999px;
+  padding:11px 16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.25s;
+}
+.tabs button.active{
+  color:#fff;
+  background:var(--accent);
+  border-color:var(--accent);
+}
+.meal-panel{display:none}
+.meal-panel.active{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+.meal-card{
+  border-radius:26px;
+  padding:24px;
+  background:linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.10);
+}
+.meal-card h4{font-size:17px;margin-bottom:6px}
+.kcal{font-family:'DM Mono';font-size:12px;color:var(--accent);margin-bottom:12px}
+.meal-card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.meal-card li::before{content:"— ";color:var(--accent)}
+
+/* TABLE */
+.table-wrap{
+  overflow:auto;
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{
+  padding:16px 18px;
+  text-align:left;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  background:rgba(255,255,255,.04);
+}
+td{
+  padding:16px 18px;
+  border-top:1px solid rgba(255,255,255,.06);
+  color:#e7e7e7;
+}
+
+/* FLOATING PRINT */
+.print-btn{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  z-index:60;
+  border:none;
+  border-radius:999px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:900;
+  padding:14px 22px;
+  cursor:pointer;
+  box-shadow:0 20px 55px rgba(229,9,20,.35);
+}
+
+/* ANIMATIONS */
+.reveal{
+  opacity:0;
+  transform:translateY(46px) scale(.985);
+  filter:blur(8px);
+  transition:
+    opacity .8s ease,
+    transform .8s cubic-bezier(.2,.9,.2,1),
+    filter .8s ease;
+}
+.reveal.show{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  filter:blur(0);
+}
+.float-in{
+  animation:floatIn .9s cubic-bezier(.2,.9,.2,1) both;
+}
+.delay-1{animation-delay:.12s}
+.delay-2{animation-delay:.24s}
+.delay-3{animation-delay:.36s}
+@keyframes floatIn{
+  from{opacity:0;transform:translateY(38px) scale(.98);filter:blur(8px)}
+  to{opacity:1;transform:none;filter:blur(0)}
+}
+
+/* SCROLL PROGRESS */
+.progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0;
+  background:var(--accent);
+  z-index:80;
+  box-shadow:0 0 20px rgba(229,9,20,.9);
+}
+
+@media(max-width:980px){
+  .topbar{border-radius:26px;height:auto;align-items:flex-start;flex-direction:column}
+  .topnav{width:100%}
+  .hero{grid-template-columns:1fr;padding-top:150px}
+  .hero-panel{min-height:410px}
+  .cols-2,.cols-3,.cols-4,.week{grid-template-columns:1fr}
+  .section{padding:78px 24px}
+}
+@media print{
+  .topbar,.print-btn,.progress{display:none}
+  .hero,.section{padding:40px}
+}
+</style>
+</head>
+
+<body>
+<div class="progress" id="progress"></div>
+<div class="bg-fx"></div>
+<div class="grid-fx"></div>
+
+<header class="topbar">
+  <div class="brand-mini">
+    <div class="logo-mini"></div>
+    <div>
+      <strong id="brandName">Personal</strong>
+      <span id="brandSub">Protocolo Premium</span>
+    </div>
+  </div>
+  <nav class="topnav" id="topnav"></nav>
+</header>
+
+<main id="app"></main>
+
+<button class="print-btn" onclick="window.print()">🖨️ Salvar PDF</button>
+
+<script>
+/* =========================================================
+   CONFIG PARAMETRIZÁVEL - ALTERE APENAS ESTA SEÇÃO
+   Cada alteração aqui recalcula automaticamente todos os valores.
+   ========================================================= */
+const CONFIG = {
+  personal: {
+    nome: "Matheus Evangelista",
+    subtitulo: "Personal Trainer",
+    logo: "assets/logo.jpg",
+    cores: {
+      primaria: "#e50914",
+      fundo: "#050505",
+      card: "#151515"
+    }
+  },
+
+  aluno: {
+    nome: "Nome do Aluno",
+    objetivo: "Hipertrofia & Recomposição Corporal",
+    sexo: "M", // "M" ou "F"
+    pesoKg: 73,
+    alturaM: 1.75,
+    idadeAnos: 28,
+    treinosSemana: 4,
+    nivel: "Intermediário", // "Iniciante", "Intermediário", "Avançado"
+    objetivo_tipo: "hipertrofia", // "hipertrofia", "emagrecimento", "recomposicao"
+    sedentarismoDias: 3 // quantos dias de descanso/sedentários
+  },
+
+  estrategia: {
+    titulo: "Recomposição Corporal",
+    descricao: "Estratégia focada em ganho de massa magra, manutenção de performance, controle calórico e aderência de longo prazo.",
+    // KCAL e macros serão calculados automaticamente abaixo
+    proteina: null, // calculado automaticamente
+    carboidrato: null,
+    gordura: null,
+    agua: null,
+    kcalTreino: null,
+    kcalDescanso: null,
+    imc: null,
+    tmb: null,
+    tdee: null
+  },
+
+  semana: [
+    {dia:"Seg", treino:"PUSH", resumo:"Peito · Ombro · Tríceps", alvo:"push"},
+    {dia:"Ter", treino:"PULL", resumo:"Costas · Bíceps", alvo:"pull"},
+    {dia:"Qua", treino:"REST", resumo:"Cardio opcional", alvo:"cardio"},
+    {dia:"Qui", treino:"LOWER", resumo:"Pernas · Core", alvo:"lower"},
+    {dia:"Sex", treino:"UPPER", resumo:"Ombro · Braços · Costas", alvo:"upper"},
+    {dia:"Sáb", treino:"ATIVO", resumo:"Caminhada leve", alvo:"cardio"},
+    {dia:"Dom", treino:"REST", resumo:"Recuperação", alvo:"recuperacao"}
+  ],
+
+  treinos: [
+    {
+      id:"push", letra:"A", dia:"Segunda-feira", nome:"Treino Push",
+      descricao:"Peito, deltóide anterior/lateral e tríceps. Foco em carga mecânica, amplitude segura e progressão.",
+      exercicios:[
+        {nome:"Supino Inclinado com Halteres", series:"4", reps:"8–10", rir:"1–2", descanso:"2–3 min", gif:"assets/exercicios/supino-inclinado.gif", emoji:"🏋️", texto:"Ênfase em peitoral superior. Controle a descida, mantenha escápulas estáveis e progrida carga com técnica."},
+        {nome:"Elevação Lateral no Cabo", series:"4", reps:"15–20", rir:"1", descanso:"60–75s", gif:"assets/exercicios/elevacao-lateral.gif", emoji:"💫", texto:"Foco em deltóide lateral. Evite impulso e mantenha tensão constante durante todo o movimento."}
+      ]
+    },
+    {
+      id:"pull", letra:"B", dia:"Terça-feira", nome:"Treino Pull",
+      descricao:"Grande dorsal, romboides, trapézio e bíceps. Prioridade para largura e espessura das costas.",
+      exercicios:[
+        {nome:"Pulldown Pegada Neutra", series:"4", reps:"8–12", rir:"1–2", descanso:"2 min", gif:"assets/exercicios/pulldown.gif", emoji:"🏗️", texto:"Puxe com os cotovelos, mantendo tronco estável. Excelente para dorsal e controle escapular."},
+        {nome:"Remada Curvada", series:"4", reps:"6–8", rir:"2", descanso:"2–3 min", gif:"assets/exercicios/remada-curvada.gif", emoji:"🚣", texto:"Exercício forte para espessura de costas. Mantenha coluna neutra e evite roubar com lombar."}
+      ]
+    },
+    {
+      id:"lower", letra:"C", dia:"Quinta-feira", nome:"Treino Lower",
+      descricao:"Quadríceps, posteriores, glúteos e core. Base para força, estética e equilíbrio corporal.",
+      exercicios:[
+        {nome:"Agachamento Livre", series:"4", reps:"6–8", rir:"2", descanso:"3 min", gif:"assets/exercicios/agachamento.gif", emoji:"🦵", texto:"Movimento base para membros inferiores. Ajuste amplitude conforme mobilidade e mantenha estabilidade."},
+        {nome:"Stiff com Halteres", series:"4", reps:"8–10", rir:"2", descanso:"2 min", gif:"assets/exercicios/stiff.gif", emoji:"📏", texto:"Ênfase em posteriores e glúteos. Desça até sentir alongamento sem perder postura."}
+      ]
+    },
+    {
+      id:"upper", letra:"D", dia:"Sexta-feira", nome:"Treino Upper",
+      descricao:"Segunda frequência para ombros, costas e braços, com volume controlado e qualidade de execução.",
+      exercicios:[
+        {nome:"Desenvolvimento Arnold", series:"3", reps:"10–12", rir:"2", descanso:"2 min", gif:"assets/exercicios/arnold.gif", emoji:"🌀", texto:"Trabalha ombros com boa amplitude. Controle o core e evite compensar com a lombar."},
+        {nome:"Face Pull", series:"3", reps:"15–20", rir:"1–2", descanso:"60s", gif:"assets/exercicios/face-pull.gif", emoji:"🎯", texto:"Importante para deltóide posterior, postura e saúde do ombro."}
+      ]
+    }
+  ],
+
+  refeicoes: [
+    {
+      id:"cafe", nome:"Café da Manhã", emoji:"☕",
+      opcoes:[
+        {titulo:"Clássico Proteico", kcal:"~600 kcal", itens:["3 ovos", "2 fatias de pão integral", "1 fruta", "Café"], macros:"P 35g · C 55g · G 22g"},
+        {titulo:"Shake Rápido", kcal:"~430 kcal", itens:["Whey", "Banana", "Aveia", "Leite"], macros:"P 35g · C 50g · G 8g"}
+      ]
+    },
+    {
+      id:"almoco", nome:"Almoço", emoji:"🍽️",
+      opcoes:[
+        {titulo:"Frango Base", kcal:"~650 kcal", itens:["Frango", "Arroz", "Feijão", "Salada"], macros:"P 50g · C 70g · G 15g"},
+        {titulo:"Carne + Batata", kcal:"~620 kcal", itens:["Carne magra", "Batata", "Legumes", "Azeite"], macros:"P 45g · C 60g · G 18g"}
+      ]
+    },
+    {
+      id:"livre", nome:"Refeição Livre", emoji:"🍔",
+      opcoes:[
+        {titulo:"Hambúrguer Planejado", kcal:"~800–1200 kcal", itens:["Manter proteína alta no dia", "Evitar compensação agressiva", "Encaixar no contexto semanal"], macros:"Flexível"}
+      ]
+    }
+  ],
+
+  suplementos: [
+    {nome:"Creatina", dose:"3–5g/dia", horario:"Qualquer horário", funcao:"Força, potência e desempenho."},
+    {nome:"Whey Protein", dose:"Conforme necessidade", horario:"Pós-treino ou lanches", funcao:"Ajuda a bater proteína diária."},
+    {nome:"Cafeína", dose:"3–6mg/kg", horario:"30–60min pré-treino", funcao:"Foco e performance."}
+  ]
+};
+
+/* =========================================================
+   CÁLCULOS AUTOMÁTICOS
+   ========================================================= */
+function calcularTodos() {
+  const a = CONFIG.aluno;
+  const e = CONFIG.estrategia;
+
+  // 1. IMC
+  const altura = a.alturaM;
+  e.imc = (a.pesoKg / (altura * altura)).toFixed(1);
+
+  // 2. TMB (Taxa Metabólica Basal) - Harris-Benedict
+  let tmb;
+  if (a.sexo === "M") {
+    tmb = 88.362 + (13.397 * a.pesoKg) + (4.799 * (a.alturaM * 100)) - (5.677 * a.idadeAnos);
+  } else {
+    tmb = 447.593 + (9.247 * a.pesoKg) + (3.098 * (a.alturaM * 100)) - (4.330 * a.idadeAnos);
+  }
+  e.tmb = Math.round(tmb);
+
+  // 3. TDEE (Total Daily Energy Expenditure)
+  const fatorAtividade = {
+    "Iniciante": 1.4,
+    "Intermediário": 1.55,
+    "Avançado": 1.65
+  }[a.nivel] || 1.55;
+  e.tdee = Math.round(tmb * fatorAtividade);
+
+  // 4. KCAL por tipo de dia (ajustado por objetivo)
+  let multiplicadorTreino, multiplicadorDescanso;
+  if (a.objetivo_tipo === "hipertrofia") {
+    multiplicadorTreino = 1.12; // Superávit leve
+    multiplicadorDescanso = 0.98; // Déficit mínimo
+  } else if (a.objetivo_tipo === "emagrecimento") {
+    multiplicadorTreino = 0.95; // Déficit moderado
+    multiplicadorDescanso = 0.90; // Déficit maior
+  } else { // recomposicao
+    multiplicadorTreino = 1.05; // Pequeno superávit
+    multiplicadorDescanso = 0.98; // Manutenção/pequeno déficit
+  }
+  
+  e.kcalTreino = Math.round(e.tdee * multiplicadorTreino);
+  e.kcalDescanso = Math.round(e.tdee * multiplicadorDescanso);
+
+  // 5. MACROS (baseado em KCAL treino)
+  const kcalRef = e.kcalTreino;
+  const proteinaGramas = Math.round(a.pesoKg * 2.2); // 2.2g por kg
+  const gorduraGramas = Math.round(kcalRef * 0.25 / 9); // 25% das calorias = 9 kcal/g
+  const carbosGramas = Math.round((kcalRef - (proteinaGramas * 4) - (gorduraGramas * 9)) / 4);
+
+  e.proteina = `${proteinaGramas - 10}–${proteinaGramas + 10}g`;
+  e.carboidrato = `${carbosGramas - 20}–${carbosGramas + 20}g`;
+  e.gordura = `${gorduraGramas - 5}–${gorduraGramas + 5}g`;
+  
+  // 6. Água (4% do peso em mL)
+  const aguaL = (a.pesoKg * 0.04).toFixed(1);
+  e.agua = `${aguaL}–${(parseFloat(aguaL) + 0.5).toFixed(1)}L`;
+}
+
+function applyTheme(){
+  const r = document.documentElement;
+  r.style.setProperty("--accent", CONFIG.personal.cores.primaria);
+  r.style.setProperty("--accentSoft", hexToRgba(CONFIG.personal.cores.primaria, .14));
+  r.style.setProperty("--black", CONFIG.personal.cores.fundo);
+  r.style.setProperty("--card", CONFIG.personal.cores.card);
+  r.style.setProperty("--logo-url", `url("${CONFIG.personal.logo}")`);
+  document.title = `${CONFIG.aluno.nome} | ${CONFIG.personal.nome}`;
+  document.getElementById("brandName").textContent = CONFIG.personal.nome;
+  document.getElementById("brandSub").textContent = CONFIG.personal.subtitulo;
+}
+
+function hexToRgba(hex, alpha){
+  const h = hex.replace("#","");
+  const bigint = parseInt(h,16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function nav(){
+  const items = [
+    ["Início","inicio"],
+    ["Estratégia","estrategia"],
+    ["Semana","semana"],
+    ...CONFIG.treinos.map(t => [t.nome.replace("Treino ",""), t.id]),
+    ["Nutrição","nutricao"],
+    ["Suplementos","suplementos"],
+    ["Recuperação","recuperacao"]
+  ];
+  document.getElementById("topnav").innerHTML = items.map(([txt,id])=>`<a href="#${id}">${txt}</a>`).join("");
+}
+
+function head(num, tag, title, desc=""){
+  return `
+  <div class="section-head reveal">
+    <div>
+      <div class="section-tag">${tag}</div>
+      <div class="section-title">${title}</div>
+      ${desc ? `<p class="section-desc">${desc}</p>` : ""}
+    </div>
+    <div class="section-num">${num}</div>
+  </div>`;
+}
+
+function hero(){
+  return `
+  <section class="hero" id="inicio">
+    <div>
+      <div class="kicker float-in">⚡ Protocolo Premium Personalizado</div>
+      <h1 class="float-in delay-1">PROTOCOLO<span>${CONFIG.aluno.objetivo}</span></h1>
+      <p class="float-in delay-2">Plano individualizado para <strong>${CONFIG.aluno.nome}</strong>, desenvolvido por <strong>${CONFIG.personal.nome}</strong>, com treino, nutrição, suplementação, recuperação e progresso em uma experiência digital moderna.</p>
+      <div class="hero-actions float-in delay-3">
+        <a class="btn btn-primary" href="#semana">Ver Treinos</a>
+        <a class="btn btn-secondary" href="#nutricao">Ver Nutrição</a>
+      </div>
+    </div>
+    <aside class="hero-panel float-in delay-2">
+      <div class="panel-content">
+        <div class="logo-big"></div>
+        <h2>${CONFIG.personal.nome}</h2>
+        <p>${CONFIG.personal.subtitulo} · protocolo para ${CONFIG.aluno.nome}</p>
+      </div>
+    </aside>
+  </section>`;
+}
+
+function estrategia(){
+  return `
+  <section class="section" id="estrategia">
+    ${head("01","Análise Corporal","Estratégia & Metas", CONFIG.estrategia.descricao)}
+    <div class="grid cols-4">
+      <div class="card featured reveal"><h3>Peso</h3><div class="big">${CONFIG.aluno.pesoKg}kg</div><p>Ponto de partida atual.</p></div>
+      <div class="card reveal"><h3>Altura</h3><div class="big">${CONFIG.aluno.alturaM}m</div><p>Base para estimativas corporais.</p></div>
+      <div class="card reveal"><h3>IMC</h3><div class="big">${CONFIG.estrategia.imc}</div><p>Índice de massa corporal.</p></div>
+      <div class="card reveal"><h3>TDEE</h3><div class="big">~${CONFIG.estrategia.tdee}</div><p>Gasto calórico estimado diário.</p></div>
+    </div>
+    <div class="grid cols-3" style="margin-top:24px">
+      <div class="card featured reveal"><h3>Dias de Treino</h3><div class="big">${CONFIG.estrategia.kcalTreino}</div><p>Calorias aproximadas para dias com treino.</p></div>
+      <div class="card reveal"><h3>Dias de Descanso</h3><div class="big">${CONFIG.estrategia.kcalDescanso}</div><p>Calorias aproximadas para dias sem treino.</p></div>
+      <div class="card reveal"><h3>Água</h3><div class="big">${CONFIG.estrategia.agua}</div><p>Meta diária ajustável.</p></div>
+    </div>
+  </section>`;
+}
+
+function semana(){
+  return `
+  <section class="section" id="semana">
+    ${head("02","Treino","Divisão Semanal","Clique em um dia para ir direto ao treino correspondente.")}
+    <div class="week">
+      ${CONFIG.semana.map(d=>`
+        <a class="day reveal" href="#${d.alvo}">
+          <small>${d.dia}</small>
+          <strong>${d.treino}</strong>
+          <span>${d.resumo}</span>
+        </a>`).join("")}
+    </div>
+  </section>`;
+}
+
+function treinos(){
+  return CONFIG.treinos.map(t=>`
+    <section class="section" id="${t.id}">
+      ${head(t.letra,t.dia,t.nome,t.descricao)}
+      <div class="exercise-grid">
+        ${t.exercicios.map(e=>`
+          <article class="exercise reveal">
+            <div class="exercise-media">
+              <div class="fallback">${e.emoji || "🏋️"}</div>
+              <img src="${e.gif}" alt="${e.nome}" onerror="this.remove()">
+            </div>
+            <div class="exercise-body">
+              <h3>${e.nome}</h3>
+              <div class="meta">
+                <span class="pill">${e.series} × ${e.reps}</span>
+                <span class="pill">RIR ${e.rir}</span>
+                <span class="pill">${e.descanso}</span>
+              </div>
+              <p>${e.texto}</p>
+            </div>
+          </article>`).join("")}
+      </div>
+    </section>`).join("");
+}
+
+function nutricao(){
+  const tabs = CONFIG.refeicoes.map((r,i)=>`<button class="${i===0?'active':''}" onclick="switchMeal('${r.id}', this)">${r.emoji} ${r.nome}</button>`).join("");
+  const panels = CONFIG.refeicoes.map((r,i)=>`
+    <div class="meal-panel ${i===0?'active':''}" id="meal-${r.id}">
+      ${r.opcoes.map(o=>`
+        <div class="meal-card reveal">
+          <h4>${o.titulo}</h4>
+          <div class="kcal">${o.kcal}</div>
+          <ul>${o.itens.map(item=>`<li>${item}</li>`).join("")}</ul>
+          <p style="margin-top:14px;color:#fff;font-weight:800">${o.macros}</p>
+        </div>`).join("")}
+    </div>`).join("");
+
+  return `
+  <section class="section" id="nutricao">
+    ${head("03","Nutrição","Macros & Plano Alimentar","Estrutura visual e editável para metas calóricas, refeições e alternativas.")}
+    <div class="grid cols-4" style="margin-bottom:28px">
+      <div class="card featured reveal"><h3>Proteína</h3><div class="big">${CONFIG.estrategia.proteina}</div><p>Meta diária.</p></div>
+      <div class="card reveal"><h3>Carboidrato</h3><div class="big">${CONFIG.estrategia.carboidrato}</div><p>Energia para treino.</p></div>
+      <div class="card reveal"><h3>Gordura</h3><div class="big">${CONFIG.estrategia.gordura}</div><p>Saúde hormonal.</p></div>
+      <div class="card reveal"><h3>Água</h3><div class="big">${CONFIG.estrategia.agua}</div><p>Hidratação diária.</p></div>
+    </div>
+    <div class="tabs reveal">${tabs}</div>
+    ${panels}
+  </section>`;
+}
+
+function suplementos(){
+  return `
+  <section class="section" id="suplementos">
+    ${head("04","Suplementação","O Que Entra no Protocolo","Suplementos parametrizáveis por dose, horário e função.")}
+    <div class="grid cols-3">
+      ${CONFIG.suplementos.map(s=>`
+        <div class="card reveal">
+          <h3>${s.nome}</h3>
+          <p><strong style="color:#fff">Dose:</strong> ${s.dose}</p>
+          <p><strong style="color:#fff">Horário:</strong> ${s.horario}</p>
+          <p><strong style="color:#fff">Função:</strong> ${s.funcao}</p>
+        </div>`).join("")}
+    </div>
+  </section>`;
+}
+
+function recuperacao(){
+  return `
+  <section class="section" id="recuperacao">
+    ${head("05","Recuperação","Sono, Cardio & Monitoramento","Ajustes simples para manter evolução sem comprometer recuperação.")}
+    <div class="grid cols-3">
+      <div class="card featured reveal"><h3>Sono</h3><div class="big">7–9h</div><p>Manter rotina consistente, ambiente escuro e redução de telas antes de dormir.</p></div>
+      <div class="card reveal" id="cardio"><h3>Cardio</h3><div class="big">2–3x</div><p>25–35 minutos em intensidade leve/moderada, ajustável ao objetivo.</p></div>
+      <div class="card reveal"><h3>Monitoramento</h3><div class="big">Semanal</div><p>Peso médio, cargas, fotos e medidas para orientar ajustes.</p></div>
+    </div>
+    <div class="table-wrap reveal" style="margin-top:26px">
+      <table>
+        <thead><tr><th>Métrica</th><th>Frequência</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Cargas</td><td>A cada treino</td><td>Controlar progressão.</td></tr>
+          <tr><td>Peso médio</td><td>Semanal</td><td>Evitar decisões por oscilação diária.</td></tr>
+          <tr><td>Fotos</td><td>Mensal</td><td>Comparar estética com mesmas condições.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>`;
+}
+
+function switchMeal(id, btn){
+  document.querySelectorAll(".meal-panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("meal-"+id).classList.add("active");
+  btn.classList.add("active");
+  setupReveal();
+}
+
+function setupReveal(){
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("show");
+      }
+    });
+  },{threshold:.12});
+  document.querySelectorAll(".reveal:not(.show)").forEach(el=>observer.observe(el));
+}
+
+function scrollProgress(){
+  const h = document.documentElement;
+  const max = h.scrollHeight - h.clientHeight;
+  const pct = (h.scrollTop / max) * 100;
+  document.getElementById("progress").style.width = pct + "%";
+}
+
+function activeNav(){
+  const links = document.querySelectorAll(".topnav a");
+  const sections = [...document.querySelectorAll("section[id]")];
+  let current = "";
+  sections.forEach(s=>{
+    if(window.scrollY >= s.offsetTop - 160) current = s.id;
+  });
+  links.forEach(a=>{
+    a.classList.toggle("active", a.getAttribute("href") === "#"+current);
+  });
+}
+
+function render(){
+  calcularTodos(); // Recalcula todos os valores
+  applyTheme();
+  nav();
+  document.getElementById("app").innerHTML =
+    hero() +
+    estrategia() +
+    semana() +
+    treinos() +
+    nutricao() +
+    suplementos() +
+    recuperacao();
+
+  setupReveal();
+  scrollProgress();
+  activeNav();
+}
+
+window.addEventListener("scroll", ()=>{
+  scrollProgress();
+  activeNav();
+});
+
+render();
+</script>
+</body>
+</html>
