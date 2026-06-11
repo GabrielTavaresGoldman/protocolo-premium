@@ -1,0 +1,27 @@
+{
+  "personal": {
+    "nome": "Matheus Evangelista",
+    "subtitulo": "Personal Trainer",
+    "logo": "assets/logo.jpg",
+    "cores": {
+      "primaria": "#e50914",
+      "fundo": "#050505",
+      "card": "#151515"
+    }
+  },
+  "aluno": {
+    "nome": "João Silva",
+    "objetivo": "Hipertrofia",
+    "sexo": "M",
+    "pesoKg": 78,
+    "alturaM": 1.78,
+    "idadeAnos": 30,
+    "treinosSemana": 4,
+    "nivel": "Intermediário",
+    "objetivo_tipo": "hipertrofia",
+    "sedentarismoDias": 2
+  },
+  "estrategia": {
+    "descricao": "Plano de recomposição focado em manutenção de performance e ganho de massa magra."
+  }
+}
